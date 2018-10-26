@@ -23,6 +23,14 @@ class UserManager(BaseUserManager):
         user_obj.save()
         return user_obj
 
+    # def get_queryset(self):
+    #     return super(UserManager, self).get_queryset().filter(email__endswith='test.com')
+
+
+class TestCOMUserManager(BaseUserManager):
+    def get_queryset(self):
+        return super(TestCOMUserManager, self).get_queryset().filter(email__endswith='test.com')
+
 
 class User(PermissionsMixin, AbstractBaseUser):
     email = models.CharField(max_length=128, unique=True)
@@ -32,6 +40,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
+    test_com_objects = TestCOMUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
